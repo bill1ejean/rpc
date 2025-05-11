@@ -1,0 +1,99 @@
+{
+  "openrpc": "1.2.1",
+  "info": {
+    "title": "Secure Data Storage API",
+    "version": "1.0.0",
+    "description": "API для управления секретными пользовательскими данными с учётом уровней доступа и локализации"
+  },
+  "methods": [
+    {
+      "name": "manageSecretData",
+      "description": "Управление секретными данными (добавление, получение, удаление)",
+      "params": [
+        {
+          "name": "action",
+          "description": "Действия: add, get, delete",
+          "schema": {
+            "type": "string",
+            "enum": ["add", "get", "delete"]
+          }
+        },
+        {
+          "name": "dataID",
+          "description": "Уникальный ID",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "userData",
+          "description": "Секретные данные для добавления (необязательно)",
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "accessLevel",
+          "description": "Уровень доступа пользователя",
+          "schema": {
+            "type": "string",
+            "enum": ["user", "admin", "superAdmin"]
+          }
+        },
+        {
+          "name": "lang",
+          "description": "Язык сообщений",
+          "schema": {
+            "type": "string",
+            "default": "en"
+          }
+        }
+      ],
+      "result": {
+        "name": "operationResult",
+        "description": "Результат операции",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "data": {
+              "type": "string"
+            }
+          },
+          "required": ["status", "message"]
+        }
+      },
+      "errors": [
+        {
+          "code": -32000,
+          "message": "Access denied",
+          "data": {
+            "en": "Access denied for this action.",
+            "ru": "Доступ к этому действию запрещен."
+          }
+        },
+        {
+          "code": -32001,
+          "message": "Data not found",
+          "data": {
+            "en": "Requested data does not exist.",
+            "ru": "Запрашиваемые данные не найдены."
+          }
+        },
+        {
+          "code": -32002,
+          "message": "Invalid parameters",
+          "data": {
+            "en": "Required parameter is missing or invalid.",
+            "ru": "Отсутствует или некорректен обязательный параметр."
+          }
+        }
+      ]
+    }
+  ]
+}
